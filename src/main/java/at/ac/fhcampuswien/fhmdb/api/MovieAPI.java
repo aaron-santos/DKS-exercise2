@@ -1,6 +1,14 @@
 package at.ac.fhcampuswien.fhmdb.api;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
+
+import okhttp3.*;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MovieAPI {
 
@@ -29,6 +37,36 @@ public class MovieAPI {
             }
         }
         return url.toString();
+    }
+
+    public static List<Movie> getAllMovies() {
+
+        return getAllMovies(null, null, null, null);
+    }
+
+    public static List<Movie> getAllMovies(String query, Genre genre, String releaseYear, String ratingFrom) {
+
+        String url = buildURL(query, genre, releaseYear, ratingFrom) {
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .removeHeader("User-Agent")
+                    .addHeader("User-Agent", "http.agent")
+                    .build();
+
+            OkHttpClient client = new OkHttpClient();
+            try (Response response = client.newCall(request).execute()){
+                String responseBody = response.body().string();
+                Gson gson = new Gson();
+                Movie[] movies = gson.fromJson(responseBody, Movie[].class);
+
+                return Arrays.asList(movies);
+            }
+            catch(Exception e) {
+                System.err.println(e.getMessage());
+            }
+            return new ArrayList<>();
+        }
     }
 
 }

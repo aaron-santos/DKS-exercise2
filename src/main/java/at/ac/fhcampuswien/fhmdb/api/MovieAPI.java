@@ -46,7 +46,7 @@ public class MovieAPI {
 
     public static List<Movie> getAllMovies(String query, Genre genre, String releaseYear, String ratingFrom) {
 
-        String url = buildURL(query, genre, releaseYear, ratingFrom) {
+        String url = buildURL(query, genre, releaseYear, ratingFrom);
 
             Request request = new Request.Builder()
                     .url(url)
@@ -55,6 +55,7 @@ public class MovieAPI {
                     .build();
 
             OkHttpClient client = new OkHttpClient();
+
             try (Response response = client.newCall(request).execute()){
                 String responseBody = response.body().string();
                 Gson gson = new Gson();
@@ -69,4 +70,3 @@ public class MovieAPI {
         }
     }
 
-}

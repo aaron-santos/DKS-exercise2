@@ -16,10 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
     @FXML
@@ -141,10 +139,17 @@ public class HomeController implements Initializable {
     }
 
     public long countMoviesFrom(List<Movie> movies, String director) {
-        var result = movies.stream()
+        return movies.stream()
                 .filter(movie -> movie.getDirectors().contains(director))
                 .count();
-        return result;
     }
+
+   public int getLongestMovieTitle(List<Movie> movies) {
+        return movies.stream()
+                .map(Movie::getTitle)
+                .mapToInt(String::length)
+                .max()
+                .orElse(0);
+   }
 
 }

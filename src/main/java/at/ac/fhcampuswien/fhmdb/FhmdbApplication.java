@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,5 +23,11 @@ public class FhmdbApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+
+        //HomeController controller = new HomeController();
+        //System.out.println(controller.getMostPopularActor(MovieAPI.getAllMovies()));
+        //System.out.println(controller.getMoviesBetweenYears(MovieAPI.getAllMovies(), 2010, 2015));
+        //System.out.println(controller.getLongestMovieTitle(MovieAPI.getAllMovies()));
+        //System.out.println(controller.countMoviesFrom(MovieAPI.getAllMovies(), "Martin Scorsese"));
     }
 }

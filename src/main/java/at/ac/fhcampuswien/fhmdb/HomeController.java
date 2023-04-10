@@ -152,4 +152,20 @@ public class HomeController implements Initializable {
                 .orElse(0);
    }
 
+   public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endyear) {
+        return movies.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endyear)
+                .collect(Collectors.toList());
+   }
+
+   public String getMostPopularActor(List<Movie> movies) {
+        return movies.stream()
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("");
+   }
+
 }

@@ -19,6 +19,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static at.ac.fhcampuswien.fhmdb.api.MovieAPI.getAllMovies;
+
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
@@ -50,7 +52,7 @@ public class HomeController implements Initializable {
     public void initializeState() {
         //allMovies = Movie.initializeMovies();
 
-        allMovies = MovieAPI.getAllMovies();
+        allMovies = getAllMovies();
         observableMovies.clear();
         observableMovies.addAll(allMovies); // add all movies to the observable list
         sortedState = SortedState.NONE;
@@ -109,16 +111,8 @@ public class HomeController implements Initializable {
     }
 
     public void applyAllFilters(String searchQuery, Object genre) {
-        List<Movie> filteredMovies = allMovies;
-
-        if (!searchQuery.isEmpty()) {
-            filteredMovies = filterByQuery(filteredMovies, searchQuery);
-        }
-
-        if (genre != null && !genre.toString().equals("No filter")) {
-            filteredMovies = filterByGenre(filteredMovies, Genre.valueOf(genre.toString()));
-        }
-
+        List<Movie> filteredMovies = filteredMovies = searchQuery.isEmpty() && genre == "No filter" ? getAllMovies(null, null, null, null)
+                : getAllMovies(searchQuery.isEmpty() ? null : searchQuery, genre == "No filter" ? null : (Genre) genre, null, null);
         observableMovies.clear();
         observableMovies.addAll(filteredMovies);
     }
@@ -134,7 +128,7 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void sortBtnClicked(ActionEvent actionEvent) {
+     public void sortBtnClicked(ActionEvent actionEvent) {
         sortMovies();
     }
 

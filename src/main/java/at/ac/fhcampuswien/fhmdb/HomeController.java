@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -50,6 +51,9 @@ public class HomeController implements Initializable {
     protected ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
     protected SortedState sortedState;
+
+    public static ArrayList<Label> titlesList = new ArrayList<Label>();
+    public static ArrayList<Label> descriptionsList = new ArrayList<Label>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -132,7 +136,10 @@ public class HomeController implements Initializable {
 
     public void applyAllFilters(String searchQuery, Object genre, String releaseYear, String rating) {
         List<Movie> filteredMovies = searchQuery.isEmpty() && genre == "No filter" && releaseYear == "Filter by Release Year" && rating == "Filter by rating" ? getAllMovies(null, null, null, null)
-                : getAllMovies(searchQuery.isEmpty() ? null : searchQuery, genre == "No filter" ? null : (Genre) genre, releaseYear == "Filter by Release Year" ? null : releaseYear, rating == "Filter by rating" ? null : rating);
+                : getAllMovies(searchQuery.isEmpty() ? null : searchQuery,
+                genre == "No filter" ? null : (Genre) genre,
+                releaseYear == "Filter by Release Year" ? null : releaseYear,
+                rating == "Filter by rating" ? null : rating);
         observableMovies.clear();
         observableMovies.addAll(filteredMovies);
     }
